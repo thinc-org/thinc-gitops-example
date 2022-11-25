@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+nameSuffix: -prod
+commonLabels:
+  app: chula-sso-mock-prod
+
+configMapGenerator:
+  - behavior: replace
+    envs:
+      - .env
+    name: chula-sso-mock-config
+
+resources:
+  - ../../base

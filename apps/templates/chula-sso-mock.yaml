@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: chula-sso-mock
+  name: chula-sso-mock-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,7 +11,45 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: gitops-example
   source:
-    path: chula-sso-mock
+    path: chula-sso-mock/overlays/dev
+    repoURL: {{ .Values.spec.source.repoURL }}
+    targetRevision: {{ .Values.spec.source.targetRevision }}
+  syncPolicy:
+    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chula-sso-mock-beta
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: gitops-example
+    server: {{ .Values.spec.destination.server }}
+  project: gitops-example
+  source:
+    path: chula-sso-mock/overlays/beta
+    repoURL: {{ .Values.spec.source.repoURL }}
+    targetRevision: {{ .Values.spec.source.targetRevision }}
+  syncPolicy:
+    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chula-sso-mock-prod
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: gitops-example
+    server: {{ .Values.spec.destination.server }}
+  project: gitops-example
+  source:
+    path: chula-sso-mock/overlays/prod
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
   syncPolicy:
