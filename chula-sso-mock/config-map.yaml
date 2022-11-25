@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chula-sso-mock-config
+data:
+  PORT: "8080"
+  APPID: APPID
+  APPSECRET: APPSECRET

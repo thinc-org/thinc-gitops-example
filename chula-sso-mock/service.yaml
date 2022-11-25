@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chula-sso-mock
+spec:
+  selector:
+    app: chula-sso-mock
+  ports:
+    - port: 8080
+      targetPort: chula-sso-mock

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-example-apps
+  namespace: argocd
+spec:
+  destination:
+    namespace: gitops-example
+    server: https://kubernetes.default.svc
+  project: gitops-example
+  source:
+    helm:
+      valueFiles:
+        - values.yaml
+    path: apps
+    repoURL: git@github.com:thinc-org/thinc-gitops-example.git
+    targetRevision: HEAD
+  syncPolicy: {}

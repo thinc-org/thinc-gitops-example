@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chula-sso-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chula-sso-mock
+  template:
+    metadata:
+      labels:
+        app: chula-sso-mock
+    spec:
+      volumes:
+        - name: chula-sso-mock-config
+          configMap:
+            name: chula-sso-mock-config
+      containers:
+        - name: chula-sso-mock
+          image: pay2630/chulassomock
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: chula-sso-mock-config
+          ports:
+            - name: chula-sso-mock
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 20m
+              memory: 100Mi
+            limits:
+              cpu: 80m
+              memory: 200Mi
